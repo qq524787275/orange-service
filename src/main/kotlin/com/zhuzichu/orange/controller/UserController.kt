@@ -3,15 +3,15 @@ package com.zhuzichu.orange.controller
 import com.taobao.api.DefaultTaobaoClient
 import com.taobao.api.TaobaoClient
 import com.taobao.api.request.TimeGetRequest
+import com.zhuzichu.orange.annotations.Encrypt
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.core.result.genSuccessResult
 import com.zhuzichu.orange.model.User
 import com.zhuzichu.orange.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.validation.BindingResult
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 /**
@@ -28,7 +28,8 @@ class UserController {
     lateinit var userService: UserService
 
     @PostMapping("/regist")
-    fun regist(@Valid user: User, bindingResult: BindingResult): Result {
+    @Encrypt
+    fun regist(@RequestBody user: User): Result {
 //        val client: TaobaoClient = DefaultTaobaoClient(
 //                "http://gw.api.taobao.com/router/rest",
 //                "27560769",

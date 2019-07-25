@@ -6,12 +6,17 @@ import com.alibaba.fastjson.support.config.FastJsonConfig
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter
 import com.zhuzichu.orange.annotations.Access
 import com.zhuzichu.orange.core.exception.ServiceException
+import com.zhuzichu.orange.core.ext.loge
+import com.zhuzichu.orange.core.ext.logi
 import com.zhuzichu.orange.core.ext.logw
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.core.result.ResultCode
 import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.utils.ProjectTokenUtils
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpInputMessage
+import org.springframework.http.HttpOutputMessage
+import org.springframework.http.converter.AbstractHttpMessageConverter
 import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerExceptionResolver
@@ -48,7 +53,7 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
                 SerializerFeature.WriteNullNumberAsZero)//Number null -> 0
         converter.fastJsonConfig = config
         converter.defaultCharset = Charset.forName("UTF-8")
-        converters.add(converter)
+//        converters.add(converter)
     }
 
     override fun configureHandlerExceptionResolvers(resolvers: MutableList<HandlerExceptionResolver>) {
@@ -83,6 +88,7 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
                             message = it
                         }
                     }
+                    message.loge(this,e)
                 }
             }
             responseResult(response, result)
@@ -133,10 +139,15 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
                             request.requestURI,
                             getIpAddress(request),
                             JSON.toJSONString(request.parameterMap))
+                    val result = Result()
+                    result.code = ResultCode.UNAUTHORIZED.code
+                    result.message = "签名认证失败"
+                    responseResult(response, result)
+                    return false
                 }
-                return super.preHandle(request, response, handler)
             }
-        })
+        }).addPathPatterns("/**")
+                .excludePathPatterns("/api/user/regist")
     }
 
     private fun getIpAddress(request: HttpServletRequest): String? {

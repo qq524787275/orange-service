@@ -24,6 +24,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("com.alibaba:fastjson:1.2.58")
     implementation("com.auth0:java-jwt:3.3.0")
+    implementation("commons-io:commons-io:2.6")
     runtimeOnly("mysql:mysql-connector-java")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

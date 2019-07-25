@@ -14,7 +14,7 @@ import java.util.*
  **/
 object ProjectTokenUtils {
 
-    var SECRET = "WETHIS123456"
+    private const val SECRET = "WETHIS123456"
 
     /**
      * 生成token
