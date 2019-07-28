@@ -12,7 +12,7 @@ object Constants {
     const val API_USER = API_BASE.plus("user")
     const val API_SMS = API_BASE.plus("sms")
 
-    fun getRegistCodeKey(phone: String): String {
+    fun getRegistCodeKey(phone: String?): String {
         return "RegistCode-".plus(phone)
     }
 }

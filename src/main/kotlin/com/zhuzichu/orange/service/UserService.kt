@@ -1,8 +1,10 @@
 package com.zhuzichu.orange.service
 
+import com.zhuzichu.orange.Constants
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.result.genSuccessResult
+import com.zhuzichu.orange.core.service.redis.RedisService
 import com.zhuzichu.orange.core.utils.ProjectPolicyUtils
 import com.zhuzichu.orange.core.utils.ProjectTokenUtils
 import com.zhuzichu.orange.model.User
@@ -23,6 +25,8 @@ import org.springframework.stereotype.Service
 class UserService {
     @Autowired
     lateinit var userRepository: UserRepository
+    @Autowired
+    lateinit var redisService: RedisService
 
     fun regist(user: User): Result {
         val isExistsByUsername = userRepository.exists(Example.of(User(username = user.username)))
@@ -32,6 +36,10 @@ class UserService {
         val isExistsByPhone = userRepository.exists(Example.of(User(username = user.phone)))
         if (isExistsByPhone) {
             return genFailResult("该手机号已经被绑定")
+        }
+        val code = redisService[Constants.getRegistCodeKey(user.phone)]
+        if (code != user.code) {
+            return genFailResult("验证码错误")
         }
         val data = userRepository.save(user.apply {
             password = ProjectPolicyUtils.md5(user.password)
