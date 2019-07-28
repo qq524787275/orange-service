@@ -17,7 +17,6 @@ fun String?.logw(any: Any, vararg objects: Any?) {
     LoggerFactory.getLogger(any.javaClass).warn(this, objects)
 }
 
-
 fun String?.loge(any: Any, vararg objects: Any?) {
     LoggerFactory.getLogger(any.javaClass).error(this, objects)
 }

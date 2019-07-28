@@ -2,7 +2,6 @@ package com.zhuzichu.orange.model
 
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotEmpty
 
 /**
  *@Auther:zhuzichu
@@ -19,5 +18,10 @@ data class User(
         @field:NotBlank(message = "账号不能为空")
         var username: String? = null,
         @field:NotBlank(message = "密码不能为空")
-        var password: String? = null
+        var password: String? = null,
+        @field:NotBlank(message = "手机号不能为空")
+        var phone: String? = null,
+        @field:NotBlank(message = "验证码不能为空")
+        @Transient
+        var code: String?=null
 )

@@ -7,14 +7,16 @@ class ServiceException : Exception {
     var code: Int = 0
     lateinit var extraMessage: String
 
-    constructor(resultCode: ResultCode) : super(resultCode.message) {
+    constructor (extraMessage: String) : this(ResultCode.INVALID_PARAM, extraMessage)
+
+    constructor(resultCode: ResultCode) : super(resultCode.msg) {
         this.code = resultCode.code
     }
 
     constructor(code: Int, message: String, extraMessage: String, cause: Throwable?) : super(message, cause) {
         this.code = code
-        this.extraMessage = message
+        this.extraMessage = extraMessage
     }
 
-    constructor(resultCode: ResultCode, extraMessage: String) : this(resultCode.code, resultCode.message, extraMessage, null)
+    constructor(resultCode: ResultCode, extraMessage: String) : this(resultCode.code, resultCode.msg, extraMessage, null)
 }

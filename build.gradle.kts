@@ -25,6 +25,11 @@ dependencies {
     implementation("com.alibaba:fastjson:1.2.58")
     implementation("com.auth0:java-jwt:3.3.0")
     implementation("commons-io:commons-io:2.6")
+    implementation("org.apache.commons:commons-lang3:3.5")
+    implementation("com.aliyun:aliyun-java-sdk-core:4.1.0")
+    implementation("redis.clients:jedis:3.1.0")
+    implementation("org.codehaus.jackson:jackson-mapper-asl:1.9.13")
+    implementation("org.codehaus.jackson:jackson-core-asl:1.9.13")
     runtimeOnly("mysql:mysql-connector-java")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

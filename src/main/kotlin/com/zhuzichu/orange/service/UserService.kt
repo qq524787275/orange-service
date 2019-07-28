@@ -3,6 +3,8 @@ package com.zhuzichu.orange.service
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.result.genSuccessResult
+import com.zhuzichu.orange.core.utils.ProjectPolicyUtils
+import com.zhuzichu.orange.core.utils.ProjectTokenUtils
 import com.zhuzichu.orange.model.User
 import com.zhuzichu.orange.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,11 +25,19 @@ class UserService {
     lateinit var userRepository: UserRepository
 
     fun regist(user: User): Result {
-        val isExists = userRepository.exists(Example.of(User().apply { username = user.username }))
-        if (isExists) {
+        val isExistsByUsername = userRepository.exists(Example.of(User(username = user.username)))
+        if (isExistsByUsername) {
             return genFailResult("该账号已经被注册")
         }
-        val data = userRepository.save(user)
-        return genSuccessResult(data)
+        val isExistsByPhone = userRepository.exists(Example.of(User(username = user.phone)))
+        if (isExistsByPhone) {
+            return genFailResult("该手机号已经被绑定")
+        }
+        val data = userRepository.save(user.apply {
+            password = ProjectPolicyUtils.md5(user.password)
+        })
+        return genSuccessResult(mapOf(
+                "token" to ProjectTokenUtils.createJWTToken(data.id, data.username)
+        ))
     }
 }

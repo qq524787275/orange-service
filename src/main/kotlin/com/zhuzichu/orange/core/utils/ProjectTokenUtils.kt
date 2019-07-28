@@ -25,7 +25,7 @@ object ProjectTokenUtils {
      * @throws Exception
      */
     @Throws(Exception::class)
-    fun createJWTToken(uid: Int, username: String): String {
+    fun createJWTToken(uid: Long?, username: String?): String {
         return JWT.create()
                 .withHeader(mapOf(
                         "alg" to "HS256",
@@ -41,7 +41,7 @@ object ProjectTokenUtils {
     }
 
     @Throws(Exception::class)
-    fun verifyJWTToken(token: String): Map<String, Claim> {
+    fun verifyJWTToken(token: String?): Map<String, Claim> {
         val jwtVerifier = JWT.require(Algorithm.HMAC256(SECRET)).build()
         try {
             return jwtVerifier.verify(token).claims

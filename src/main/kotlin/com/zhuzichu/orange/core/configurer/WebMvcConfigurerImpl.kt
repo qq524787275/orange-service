@@ -62,16 +62,16 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
             when (e) {
                 is ServiceException -> {//业务失败的异常，如“账号或密码错误”
                     result.code = e.code
-                    result.message = e.message
+                    result.msg = e.message
                 }
                 is NoHandlerFoundException -> result.code = ResultCode.NOT_FOUND.code
                 is ServletException -> {
                     result.code = ResultCode.FAIL.code
-                    result.message = e.message
+                    result.msg = e.message
                 }
                 is ConstraintViolationException -> {
                     result.code = ResultCode.FAIL.code
-                    result.message = e.constraintViolations.toList()[0].message
+                    result.msg = e.constraintViolations.toList()[0].message
                 }
                 else -> {
                     //系统内部异常,不返回给客户端,内部记录错误日志
@@ -141,13 +141,14 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
                             JSON.toJSONString(request.parameterMap))
                     val result = Result()
                     result.code = ResultCode.UNAUTHORIZED.code
-                    result.message = "签名认证失败"
+                    result.msg = "签名认证失败"
                     responseResult(response, result)
                     return false
                 }
             }
         }).addPathPatterns("/**")
                 .excludePathPatterns("/api/user/regist")
+                .excludePathPatterns("/api/sms/**")
     }
 
     private fun getIpAddress(request: HttpServletRequest): String? {

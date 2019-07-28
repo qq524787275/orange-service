@@ -1,6 +1,6 @@
 package com.zhuzichu.orange.core.result
 
-enum class ResultCode(val code: Int, val message: String) {
+enum class ResultCode(val code: Int, val msg: String) {
     SUCCESS(1, "SUCCESS"), //成功
     FAIL(-1, "访问失败"), //失败
     UNAUTHORIZED(401, "签名错误"), //未认证（签名错误）
