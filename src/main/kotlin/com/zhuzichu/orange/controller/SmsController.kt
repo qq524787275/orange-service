@@ -40,12 +40,12 @@ class SmsController {
         return try {
             val sendSmsResponse = ProjectSmsUtils.client.getCommonResponse(smsRequest)
             sendSmsResponse.data
-            redisService[Constants.getRegistCodeKey(phone), code.toString()] = 60
+            redisService[Constants.getRegistCodeKey(phone), code.toString()] = 60 * 5
             genSuccessResult("短信发送成功")
         } catch (e: Exception) {
             e.printStackTrace()
             if (e !is ClientException) {
-                genSuccessResult("短信发送成功")
+                genSuccessResult()
             }
             genFailResult("短信发送失败")
 

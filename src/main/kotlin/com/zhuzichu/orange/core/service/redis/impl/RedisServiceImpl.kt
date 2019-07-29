@@ -93,19 +93,20 @@ class RedisServiceImpl : RedisService {
      * @param key
      * @return
      */
-    override fun get(key: String): String {
+    override fun get(key: String): String? {
 
         if (StringUtils.isBlank(key)) {
             logger.warn("Params key is blank!")
             return StringUtils.EMPTY
         }
         val jedis = this.resource
-        try {
-            return jedis.get(key)
+        return try {
+            jedis.get(key)
+        } catch (e: Exception) {
+            null
         } finally {
             this.destroyResource(jedis)
         }
-
     }
 
     /**

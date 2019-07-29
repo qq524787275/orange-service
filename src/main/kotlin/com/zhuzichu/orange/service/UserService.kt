@@ -33,16 +33,20 @@ class UserService {
         if (isExistsByUsername) {
             return genFailResult("该账号已经被注册")
         }
-        val isExistsByPhone = userRepository.exists(Example.of(User(username = user.phone)))
+        val isExistsByPhone = userRepository.exists(Example.of(User(phone = user.phone)))
         if (isExistsByPhone) {
             return genFailResult("该手机号已经被绑定")
         }
         val code = redisService[Constants.getRegistCodeKey(user.phone)]
-        if (code != user.code) {
+
+        if (code.isNullOrBlank() || code != user.code) {
             return genFailResult("验证码错误")
         }
         val data = userRepository.save(user.apply {
             password = ProjectPolicyUtils.md5(user.password)
+            if (nickname == null) {
+                nickname = username
+            }
         })
         return genSuccessResult(mapOf(
                 "token" to ProjectTokenUtils.createJWTToken(data.id, data.username)

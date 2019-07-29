@@ -38,7 +38,7 @@ interface RedisService {
      * @param key
      * @return
      */
-    operator fun get(key: String): String
+    operator fun get(key: String): String?
 
 
     /**
