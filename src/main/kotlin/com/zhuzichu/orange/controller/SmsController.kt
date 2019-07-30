@@ -5,7 +5,7 @@ import com.zhuzichu.orange.Constants
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.result.genSuccessResult
-import com.zhuzichu.orange.core.service.redis.RedisService
+import com.zhuzichu.orange.core.service.redis.IRedisService
 import com.zhuzichu.orange.core.utils.ProjectVerifyUtils
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -26,7 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired
 @RequestMapping(Constants.API_SMS)
 class SmsController {
     @Autowired
-    lateinit var redisService: RedisService
+    lateinit var redisService: IRedisService
 
     @PostMapping("/getRegistCode")
     fun getRegistCode(

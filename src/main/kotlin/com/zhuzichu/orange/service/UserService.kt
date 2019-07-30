@@ -1,20 +1,15 @@
 package com.zhuzichu.orange.service
 
-import com.zhuzichu.orange.Constants
-import com.zhuzichu.orange.controller.UserController
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.result.genSuccessResult
-import com.zhuzichu.orange.core.service.redis.RedisService
 import com.zhuzichu.orange.core.utils.ProjectPolicyUtils
 import com.zhuzichu.orange.core.utils.ProjectTokenUtils
 import com.zhuzichu.orange.model.User
 import com.zhuzichu.orange.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Example
-import org.springframework.data.domain.ExampleMatcher
 import org.springframework.stereotype.Service
-import java.lang.Exception
 
 /**
  *@Auther:zhuzichu
@@ -44,7 +39,10 @@ class UserService {
             }
         })
         return genSuccessResult(data = mapOf(
-                "token" to ProjectTokenUtils.createJWTToken(data.id, data.username)
+                "token" to ProjectTokenUtils.createJWTToken(data.id, data.username),
+                "userInfo" to data.apply {
+                    password = null
+                }
         ))
     }
 
@@ -53,7 +51,10 @@ class UserService {
         if (!data.isPresent)
             return genFailResult("用户名或密码错误")
         return genSuccessResult(data = mapOf(
-                "token" to ProjectTokenUtils.createJWTToken(data.get().id, data.get().username)
+                "token" to ProjectTokenUtils.createJWTToken(data.get().id, data.get().username),
+                "userInfo" to data.get().apply {
+                    password = null
+                }
         ), msg = "登录成功")
     }
 
@@ -62,7 +63,10 @@ class UserService {
         if (!data.isPresent)
             return genFailResult("该手机未绑定任何账号")
         return genSuccessResult(data = mapOf(
-                "token" to ProjectTokenUtils.createJWTToken(data.get().id, data.get().username)
+                "token" to ProjectTokenUtils.createJWTToken(data.get().id, data.get().username),
+                "userInfo" to data.get().apply {
+                    password = null
+                }
         ), msg = "登录成功")
     }
 

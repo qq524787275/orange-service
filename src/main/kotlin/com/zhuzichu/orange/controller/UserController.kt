@@ -3,10 +3,9 @@ package com.zhuzichu.orange.controller
 
 import com.zhuzichu.orange.Constants
 import com.zhuzichu.orange.annotations.Encrypt
-import com.zhuzichu.orange.core.ext.logi
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.core.result.genFailResult
-import com.zhuzichu.orange.core.service.redis.RedisService
+import com.zhuzichu.orange.core.service.redis.IRedisService
 import com.zhuzichu.orange.model.User
 import com.zhuzichu.orange.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,7 +26,7 @@ class UserController {
     @Autowired
     lateinit var userService: UserService
     @Autowired
-    lateinit var redisService: RedisService
+    lateinit var redisService: IRedisService
 
     @PostMapping("/regist")
     @Encrypt

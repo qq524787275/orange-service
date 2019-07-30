@@ -1,5 +1,6 @@
 package com.zhuzichu.orange.model
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotBlank
  **/
 @Entity
 @Table(name = "orange_user")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

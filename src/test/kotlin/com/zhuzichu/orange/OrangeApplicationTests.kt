@@ -1,6 +1,6 @@
 package com.zhuzichu.orange
 
-import com.zhuzichu.orange.core.service.redis.RedisService
+import com.zhuzichu.orange.core.service.redis.IRedisService
 import com.zhuzichu.orange.core.utils.ProjectPolicyUtils
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner
 @SpringBootTest
 class OrangeApplicationTests {
     @Autowired
-    lateinit var redisService: RedisService
+    lateinit var redisService: IRedisService
 
     @Test
     fun contextLoads() {
