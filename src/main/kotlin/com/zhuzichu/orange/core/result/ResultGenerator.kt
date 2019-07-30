@@ -10,11 +10,11 @@ fun genSuccessResult(): Result {
     }
 }
 
-fun genSuccessResult(data: Any): Result {
+fun genSuccessResult(data: Any? = null, msg: String = DEFAULT_SUCCESS_MESSAGE): Result {
     return Result().apply {
         code = ResultCode.SUCCESS.code
         this.data = data
-        msg = DEFAULT_SUCCESS_MESSAGE
+        this.msg = msg
     }
 }
 

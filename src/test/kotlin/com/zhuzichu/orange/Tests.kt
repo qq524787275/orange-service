@@ -11,18 +11,21 @@ import org.junit.Test
  **/
 
 object Tests {
-//    @JvmStatic
-//    fun main(args: Array<String>) {
-//        val encryptPolicy = ProjectPolicyUtils.encryptPolicy("""{"username":"asdfasdf","password":"qaioasd520","phone":"18229858146","code":"656793"}""")
-//        println(encryptPolicy)
-//        val decryptPolicy = ProjectPolicyUtils.decryptPolicy(encryptPolicy)
-//        println(decryptPolicy)
-//    }
-
     @JvmStatic
     fun main(args: Array<String>) {
-        val code = 50
-        val info = "getRegistCode$code"
+//        val encryptPolicy = ProjectPolicyUtils.encryptPolicy("""{"username":"18229858146","password":"18229858146","phone":"18229858146","code":"974272"}""")
+        val encryptPolicy = ProjectPolicyUtils.encryptPolicy("""{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImV4cCI6MTU2NDU1MzA5MywiaWF0IjoxNTY0NDY2NjkzLCJ1c2VybmFtZSI6IjE4MjI5ODU4MTQ2In0.DT38TanZgUz1palePvd7iux94Hty-WJUW53uPSpwLpI"}""")
+
+        println(encryptPolicy)
+        val decryptPolicy = ProjectPolicyUtils.decryptPolicy(encryptPolicy)
+        println(decryptPolicy)
     }
+
+//    @JvmStatic
+//    fun main(args: Array<String>) {
+//        val code = 50
+//        val info = "getRegistCode$code"
+//    }
+    //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImV4cCI6MTU2NDU1MzA5MywiaWF0IjoxNTY0NDY2NjkzLCJ1c2VybmFtZSI6IjE4MjI5ODU4MTQ2In0.DT38TanZgUz1palePvd7iux94Hty-WJUW53uPSpwLpI
 }
 

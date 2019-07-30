@@ -1,6 +1,7 @@
 package com.zhuzichu.orange.service
 
 import com.zhuzichu.orange.Constants
+import com.zhuzichu.orange.controller.UserController
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.result.genSuccessResult
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Example
 import org.springframework.data.domain.ExampleMatcher
 import org.springframework.stereotype.Service
+import java.lang.Exception
 
 /**
  *@Auther:zhuzichu
@@ -25,8 +27,6 @@ import org.springframework.stereotype.Service
 class UserService {
     @Autowired
     lateinit var userRepository: UserRepository
-    @Autowired
-    lateinit var redisService: RedisService
 
     fun regist(user: User): Result {
         val isExistsByUsername = userRepository.exists(Example.of(User(username = user.username)))
@@ -37,19 +37,41 @@ class UserService {
         if (isExistsByPhone) {
             return genFailResult("该手机号已经被绑定")
         }
-        val code = redisService[Constants.getRegistCodeKey(user.phone)]
-
-        if (code.isNullOrBlank() || code != user.code) {
-            return genFailResult("验证码错误")
-        }
         val data = userRepository.save(user.apply {
             password = ProjectPolicyUtils.md5(user.password)
             if (nickname == null) {
                 nickname = username
             }
         })
-        return genSuccessResult(mapOf(
+        return genSuccessResult(data = mapOf(
                 "token" to ProjectTokenUtils.createJWTToken(data.id, data.username)
         ))
+    }
+
+    fun login(user: User): Result {
+        val data = userRepository.findOne(Example.of(user))
+        if (!data.isPresent)
+            return genFailResult("用户名或密码错误")
+        return genSuccessResult(data = mapOf(
+                "token" to ProjectTokenUtils.createJWTToken(data.get().id, data.get().username)
+        ), msg = "登录成功")
+    }
+
+    fun loginByPhone(user: User): Result {
+        val data = userRepository.findOne(Example.of(user))
+        if (!data.isPresent)
+            return genFailResult("该手机未绑定任何账号")
+        return genSuccessResult(data = mapOf(
+                "token" to ProjectTokenUtils.createJWTToken(data.get().id, data.get().username)
+        ), msg = "登录成功")
+    }
+
+    fun getUserInfo(user: User): Result {
+        val data = userRepository.findOne(Example.of(user))
+        if (!data.isPresent)
+            return genFailResult("没有找到该用户信息")
+        return genSuccessResult(data = data.get().apply {
+            password = null
+        })
     }
 }

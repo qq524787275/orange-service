@@ -7,8 +7,8 @@ spring:
     properties:
       hibernate:
         hbm2ddl:
-          auto: create
-          #auto: update
+          #          auto: create
+          auto: update
     open-in-view: true
   #redis配置
   redis:

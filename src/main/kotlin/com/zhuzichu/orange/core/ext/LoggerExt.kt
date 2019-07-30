@@ -9,14 +9,16 @@ import org.slf4j.LoggerFactory
  *@Desciption:
  **/
 
-fun String?.logi(any: Any) {
-    LoggerFactory.getLogger(any.javaClass).info(this)
+private const val tag = "Orange"
+
+fun Any?.logi(vararg objects: Any?) {
+    LoggerFactory.getLogger(tag).info(this.toString(), objects)
 }
 
-fun String?.logw(any: Any, vararg objects: Any?) {
-    LoggerFactory.getLogger(any.javaClass).warn(this, objects)
+fun Any?.logw(vararg objects: Any?) {
+    LoggerFactory.getLogger(tag).warn(this.toString(), objects)
 }
 
-fun String?.loge(any: Any, vararg objects: Any?) {
-    LoggerFactory.getLogger(any.javaClass).error(this, objects)
+fun Any?.loge(vararg objects: Any?) {
+    LoggerFactory.getLogger(tag).error(this.toString(), objects)
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.serializer.SerializerFeature
 import com.alibaba.fastjson.support.config.FastJsonConfig
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter
+import com.zhuzichu.orange.Constants
 import com.zhuzichu.orange.annotations.Access
 import com.zhuzichu.orange.core.exception.ServiceException
 import com.zhuzichu.orange.core.ext.loge
@@ -14,9 +15,6 @@ import com.zhuzichu.orange.core.result.ResultCode
 import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.utils.ProjectTokenUtils
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpInputMessage
-import org.springframework.http.HttpOutputMessage
-import org.springframework.http.converter.AbstractHttpMessageConverter
 import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerExceptionResolver
@@ -88,7 +86,7 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
                             message = it
                         }
                     }
-                    message.loge(this,e)
+                    message.loge(e)
                 }
             }
             responseResult(response, result)
@@ -135,7 +133,6 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
                     return false
                 } else {
                     "签名认证失败，请求接口：{}，请求IP：{}，请求参数：{}".logw(
-                            this,
                             request.requestURI,
                             getIpAddress(request),
                             JSON.toJSONString(request.parameterMap))
@@ -147,8 +144,10 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
                 }
             }
         }).addPathPatterns("/**")
-                .excludePathPatterns("/api/user/regist")
-                .excludePathPatterns("/api/sms/**")
+                .excludePathPatterns(Constants.API_USER.plus("/regist"))
+                .excludePathPatterns(Constants.API_USER.plus("/login"))
+                .excludePathPatterns(Constants.API_USER.plus("/loginByPhone"))
+                .excludePathPatterns(Constants.API_SMS.plus("/**"))
     }
 
     private fun getIpAddress(request: HttpServletRequest): String? {
@@ -174,11 +173,12 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
     }
 
     private fun validateSign(request: HttpServletRequest): Boolean {
-        val requestSign = request.getParameter("token")//获得请求签名，如sign=19e907700db7ad91318424a97c54ed57
+        val requestSign = request.getHeader("token")//获得请求签名，如sign=19e907700db7ad91318424a97c54ed57
+        requestSign.logi(this)
         try {
             val map = ProjectTokenUtils.verifyJWTToken(requestSign)
-            request.setAttribute("uid", map["uid"]?.asInt())
-            request.setAttribute("username", map["username"]?.asString())
+            request.setAttribute(Constants.KEY_USER_ID, map[Constants.KEY_USER_ID]?.asLong())
+            request.setAttribute(Constants.KEY_USER_USERNAME, map[Constants.KEY_USER_USERNAME]?.asString())
             return true
         } catch (e: Exception) {
         }

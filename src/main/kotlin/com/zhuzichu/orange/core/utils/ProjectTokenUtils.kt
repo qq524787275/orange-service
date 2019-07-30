@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.Claim
 import com.auth0.jwt.interfaces.DecodedJWT
+import com.zhuzichu.orange.Constants
 import java.util.*
 
 /**
@@ -31,8 +32,8 @@ object ProjectTokenUtils {
                         "alg" to "HS256",
                         "typ" to "JWT"
                 ))
-                .withClaim("uid", uid)
-                .withClaim("username", username)
+                .withClaim(Constants.KEY_USER_ID, uid)
+                .withClaim(Constants.KEY_USER_USERNAME, username)
                 .withExpiresAt(Calendar.getInstance().apply {
                     add(Calendar.HOUR, 24)
                 }.time)
