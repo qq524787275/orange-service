@@ -27,17 +27,14 @@ import java.nio.charset.StandardCharsets
 @RestControllerAdvice
 class ParamEncryptRequestBodyAdvice : RequestBodyAdvice {
     override fun supports(methodParameter: MethodParameter, targetType: Type, converterType: Class<out HttpMessageConverter<*>>): Boolean {
-        "supports".logi()
         return methodParameter.hasMethodAnnotation(Encrypt::class.java) && methodParameter.hasParameterAnnotation(RequestBody::class.java)
     }
 
     override fun handleEmptyBody(body: Any?, inputMessage: HttpInputMessage, parameter: MethodParameter, targetType: Type, converterType: Class<out HttpMessageConverter<*>>): Any? {
-        "handleEmptyBody".logi()
         return body
     }
 
     override fun beforeBodyRead(inputMessage: HttpInputMessage, parameter: MethodParameter, targetType: Type, converterType: Class<out HttpMessageConverter<*>>): HttpInputMessage {
-        "beforeBodyRead".logi()
         return object : HttpInputMessage {
             override fun getBody(): InputStream {
                 return ByteArrayInputStream(
@@ -53,7 +50,6 @@ class ParamEncryptRequestBodyAdvice : RequestBodyAdvice {
     }
 
     override fun afterBodyRead(body: Any, inputMessage: HttpInputMessage, parameter: MethodParameter, targetType: Type, converterType: Class<out HttpMessageConverter<*>>): Any {
-        "afterBodyRead".logi()
         return body
     }
 

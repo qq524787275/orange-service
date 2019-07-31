@@ -39,13 +39,10 @@ class SmsController {
             sendSmsResponse.data
             redisService[Constants.getRegistCodeKey(phone), code.toString()] = 60 * 5
             genSuccessResult(msg = "短信发送成功")
-        } catch (e: Exception) {
-            e.printStackTrace()
-            if (e !is ClientException) {
-                genSuccessResult()
-            }
+        } catch (e: ClientException) {
             genFailResult("短信发送失败")
-
+        } catch (e: Exception) {
+            genSuccessResult(msg = "短信发送成功")
         }
     }
 }

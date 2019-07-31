@@ -7,6 +7,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter
 import com.zhuzichu.orange.Constants
 import com.zhuzichu.orange.annotations.Access
 import com.zhuzichu.orange.core.exception.ServiceException
+import com.zhuzichu.orange.core.ext.addDefaultPath
 import com.zhuzichu.orange.core.ext.loge
 import com.zhuzichu.orange.core.ext.logi
 import com.zhuzichu.orange.core.ext.logw
@@ -51,7 +52,7 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
                 SerializerFeature.WriteNullNumberAsZero)//Number null -> 0
         converter.fastJsonConfig = config
         converter.defaultCharset = Charset.forName("UTF-8")
-//        converters.add(converter)
+        converters.add(converter)
     }
 
     override fun configureHandlerExceptionResolvers(resolvers: MutableList<HandlerExceptionResolver>) {
@@ -143,11 +144,7 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
                     return false
                 }
             }
-        }).addPathPatterns("/**")
-                .excludePathPatterns(Constants.API_USER.plus("/regist"))
-                .excludePathPatterns(Constants.API_USER.plus("/login"))
-                .excludePathPatterns(Constants.API_USER.plus("/loginByPhone"))
-                .excludePathPatterns(Constants.API_SMS.plus("/**"))
+        }).addDefaultPath()
     }
 
     private fun getIpAddress(request: HttpServletRequest): String? {
@@ -174,11 +171,17 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
 
     private fun validateSign(request: HttpServletRequest): Boolean {
         val requestSign = request.getHeader("token")//获得请求签名，如sign=19e907700db7ad91318424a97c54ed57
+        val platform = request.getHeader("platform")
+        val versionCode = request.getIntHeader("version_code")
+        val versionName = request.getHeader("version_name")
         requestSign.logi(this)
         try {
             val map = ProjectTokenUtils.verifyJWTToken(requestSign)
             request.setAttribute(Constants.KEY_USER_ID, map[Constants.KEY_USER_ID]?.asLong())
             request.setAttribute(Constants.KEY_USER_USERNAME, map[Constants.KEY_USER_USERNAME]?.asString())
+            request.setAttribute(Constants.KEY_USER_PLATFORM, platform)
+            request.setAttribute(Constants.KEY_USER_VERSION_NAME, versionName)
+            request.setAttribute(Constants.KEY_USER_VERSION_CODE, versionCode)
             return true
         } catch (e: Exception) {
         }

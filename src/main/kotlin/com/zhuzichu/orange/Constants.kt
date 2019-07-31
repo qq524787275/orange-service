@@ -10,6 +10,10 @@ package com.zhuzichu.orange
 object Constants {
     const val KEY_USER_ID = "uid"
     const val KEY_USER_USERNAME = "username"
+    const val KEY_USER_PLATFORM = "platform"
+    const val KEY_USER_DEVICE= "device"
+    const val KEY_USER_VERSION_CODE = "version_code"
+    const val KEY_USER_VERSION_NAME = "version_name"
 
     private const val API_BASE = "/api/"
     const val API_USER = API_BASE.plus("user")
