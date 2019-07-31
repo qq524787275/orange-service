@@ -9,12 +9,14 @@ import com.zhuzichu.orange.annotations.Access
 import com.zhuzichu.orange.core.exception.ServiceException
 import com.zhuzichu.orange.core.ext.addDefaultPath
 import com.zhuzichu.orange.core.ext.loge
-import com.zhuzichu.orange.core.ext.logi
 import com.zhuzichu.orange.core.ext.logw
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.core.result.ResultCode
 import com.zhuzichu.orange.core.result.genFailResult
+import com.zhuzichu.orange.core.utils.ProjectJsonUtils
+import com.zhuzichu.orange.core.utils.ProjectPolicyUtils
 import com.zhuzichu.orange.core.utils.ProjectTokenUtils
+import com.zhuzichu.orange.model.Orange
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.web.method.HandlerMethod
@@ -117,6 +119,15 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(object : HandlerInterceptorAdapter() {
             override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
+                val policy = request.getHeader(Constants.KEY_ORANGE)
+                val json = ProjectPolicyUtils.decryptPolicy(policy)
+                request.setAttribute(Constants.KEY_ORANGE, ProjectJsonUtils.fromJson(json, Orange::class.java))
+                return true
+            }
+        }).addPathPatterns("/**")
+
+        registry.addInterceptor(object : HandlerInterceptorAdapter() {
+            override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
                 response.setHeader("Access-Control-Allow-Origin", "*")
                 val pass = validateSign(request)
                 if (pass) {
@@ -170,18 +181,11 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
     }
 
     private fun validateSign(request: HttpServletRequest): Boolean {
-        val requestSign = request.getHeader("token")//获得请求签名，如sign=19e907700db7ad91318424a97c54ed57
-        val platform = request.getHeader("platform")
-        val versionCode = request.getIntHeader("version_code")
-        val versionName = request.getHeader("version_name")
-        requestSign.logi(this)
+        val token = request.getHeader("token")//获得请求签名，如sign=19e907700db7ad91318424a97c54ed57
         try {
-            val map = ProjectTokenUtils.verifyJWTToken(requestSign)
+            val map = ProjectTokenUtils.verifyJWTToken(token)
             request.setAttribute(Constants.KEY_USER_ID, map[Constants.KEY_USER_ID]?.asLong())
             request.setAttribute(Constants.KEY_USER_USERNAME, map[Constants.KEY_USER_USERNAME]?.asString())
-            request.setAttribute(Constants.KEY_USER_PLATFORM, platform)
-            request.setAttribute(Constants.KEY_USER_VERSION_NAME, versionName)
-            request.setAttribute(Constants.KEY_USER_VERSION_CODE, versionCode)
             return true
         } catch (e: Exception) {
         }

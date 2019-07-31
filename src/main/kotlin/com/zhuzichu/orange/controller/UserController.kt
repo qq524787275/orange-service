@@ -3,9 +3,12 @@ package com.zhuzichu.orange.controller
 
 import com.zhuzichu.orange.Constants
 import com.zhuzichu.orange.annotations.Encrypt
+import com.zhuzichu.orange.core.ext.logi
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.service.redis.IRedisService
+import com.zhuzichu.orange.core.utils.ProjectIpAddrUtils
+import com.zhuzichu.orange.model.Orange
 import com.zhuzichu.orange.model.User
 import com.zhuzichu.orange.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,11 +33,20 @@ class UserController {
 
     @PostMapping("/regist")
     @Encrypt
-    fun regist(@RequestBody user: User): Result {
+    fun regist(@RequestBody user: User, httpRequest: HttpServletRequest): Result {
         val code = redisService[Constants.getRegistCodeKey(user.phone)]
         if (code.isNullOrBlank() || code != user.code) {
             return genFailResult("验证码错误")
         }
+        val orange = httpRequest.getAttribute(Constants.KEY_ORANGE) as Orange
+        user.loginLastTime = System.currentTimeMillis()
+        user.loginLastPlatform = orange.platform
+        user.loginLastVersionCode = orange.versionCode
+        user.loginLastVersionName = orange.versionName
+        user.loginLastDevice = orange.device
+        user.registTime = System.currentTimeMillis()
+        user.loginLastIp = ProjectIpAddrUtils.getIpAddr(httpRequest)
+        httpRequest.remoteAddr.logi()
         return userService.regist(user)
     }
 
