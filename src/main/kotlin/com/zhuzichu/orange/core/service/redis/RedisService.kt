@@ -29,12 +29,7 @@ class RedisService : IRedisService {
 
     @PostConstruct
     override fun create() {
-        val config = JedisPoolConfig()
-        config.maxIdle = 500
-        config.maxTotal = 8
-        config.maxWaitMillis = -1L
-        config.testOnBorrow = true
-        pool = JedisPool(config, "0.0.0.0", 6379, 1000)
+        pool = JedisPool()
     }
 
     @PreDestroy
@@ -112,7 +107,7 @@ class RedisService : IRedisService {
     }
 
     override fun set(key: String, value: String, setParams: SetParams): String {
-        return obtain().use {
+        obtain().use {
             return it.set(key, value, setParams)
         }
     }
