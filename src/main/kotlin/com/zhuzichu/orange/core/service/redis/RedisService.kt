@@ -7,6 +7,7 @@ import org.codehaus.jackson.type.JavaType
 import org.springframework.stereotype.Component
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.JedisPool
+import redis.clients.jedis.JedisPoolConfig
 import redis.clients.jedis.params.SetParams
 import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy
@@ -28,7 +29,12 @@ class RedisService : IRedisService {
 
     @PostConstruct
     override fun create() {
-        pool = JedisPool()
+        val config = JedisPoolConfig()
+        config.maxIdle = 500
+        config.maxTotal = 8
+        config.maxWaitMillis = -1L
+        config.testOnBorrow = true
+        pool = JedisPool(config, "0.0.0.0", 6379, 1000)
     }
 
     @PreDestroy
@@ -77,7 +83,7 @@ class RedisService : IRedisService {
         }
         try {
             redisResult.isExist = true
-            redisResult.listResult = IRedisService.om.readValue<List<T>>(value,  getCollectionType(List::class.java, elementClazz))
+            redisResult.listResult = IRedisService.om.readValue<List<T>>(value, getCollectionType(List::class.java, elementClazz))
         } catch (e: Exception) {
             redisResult.isExist = false
         } finally {
