@@ -19,11 +19,14 @@ services:
     restart: always
   redis:
     container_name: v-reids
-    image: registry.cn-hangzhou.aliyuncs.com/xylink/redis:3.2_v1
+    image: redis:5.0.4
     restart: always
     ports:
       - 6379:6379
-    command: redis-server
+    volumes:
+      - ./redis:/etc/redis
+    tty: true
+    command: redis-server /etc/redis/redis.conf
   orange:
     restart: always
     container_name: v-orange
