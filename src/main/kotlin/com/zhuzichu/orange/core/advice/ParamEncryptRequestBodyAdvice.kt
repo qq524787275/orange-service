@@ -26,6 +26,7 @@ import java.nio.charset.StandardCharsets
 
 @RestControllerAdvice
 class ParamEncryptRequestBodyAdvice : RequestBodyAdvice {
+
     override fun supports(methodParameter: MethodParameter, targetType: Type, converterType: Class<out HttpMessageConverter<*>>): Boolean {
         return methodParameter.hasMethodAnnotation(Encrypt::class.java) && methodParameter.hasParameterAnnotation(RequestBody::class.java)
     }

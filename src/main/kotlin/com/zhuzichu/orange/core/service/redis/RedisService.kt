@@ -1,9 +1,12 @@
 package com.zhuzichu.orange.core.service.redis
 
 import com.alibaba.fastjson.JSON
+import com.zhuzichu.orange.core.ext.logi
 import com.zhuzichu.orange.core.service.redis.IRedisService.Companion.DEFAULT_EXPIRE_TIME
 import org.apache.commons.lang3.StringUtils
 import org.codehaus.jackson.type.JavaType
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.PropertySource
 import org.springframework.stereotype.Component
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.JedisPool
@@ -23,13 +26,39 @@ import javax.annotation.PreDestroy
 
 @Component("redisService")
 class RedisService : IRedisService {
+    @Value("\${spring.redis.host}")
+    private lateinit var host: String
+
+    @Value("\${spring.redis.port}")
+    private var port: Int = 6379
+
+    @Value("\${spring.redis.timeout}")
+    private var timeout: Int = 0
+
+    @Value("\${spring.redis.jedis.pool.max-idle}")
+    private var maxIdle: Int = 100
+
+    @Value("\${spring.redis.jedis.pool.max-wait}")
+    private var maxWaitMillis: Long = 100000
+
+    @Value("\${spring.redis.password}")
+    private lateinit var password: String
+
     private lateinit var pool: JedisPool
 
     private fun obtain(): Jedis = pool.resource
 
     @PostConstruct
     override fun create() {
-        pool = JedisPool()
+        "jedis开始初始化".logi()
+        "redis地址:".plus(host).plus(":").plus(port).logi()
+        "redis密码:".plus(password).logi()
+        val jedisPoolConfig=JedisPoolConfig()
+        jedisPoolConfig.maxIdle=maxIdle
+        jedisPoolConfig.maxWaitMillis=maxWaitMillis
+        jedisPoolConfig.blockWhenExhausted=true
+        jedisPoolConfig.jmxEnabled=true
+        pool = JedisPool(jedisPoolConfig,host,port,timeout,password)
     }
 
     @PreDestroy

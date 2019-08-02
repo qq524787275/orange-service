@@ -12,16 +12,16 @@ spring:
     open-in-view: true
   #redis配置
   redis:
-    host: 0.0.0.0
-    port: 6379
+    host: redis
+    port: 6478
     database: 1
     timeout: 0
-    password: qaioasd520
     jedis:
       pool:
         max-active: 8
         max-wait: -1
         max-idle: 500
         min-idle: 0
+    password: qaioasd520
 server:
   port: 8011

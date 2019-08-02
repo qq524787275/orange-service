@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   nginx:
     container_name: v-nginx
@@ -19,13 +19,12 @@ services:
     restart: always
   redis:
     container_name: v-reids
-    image: redis:5.0.4
+    image: redis:5.0.5
     restart: always
     ports:
-      - 6379:6379
+      - 6378:6378
     volumes:
-      - ./redis:/etc/redis
-    tty: true
+      - /usr/dev/etc/redis:/etc/redis
     command: redis-server /etc/redis/redis.conf
   orange:
     restart: always
@@ -35,6 +34,8 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
+    volumes:
+      - .:/usr/dev/code
     depends_on:
       - nginx
       - mysql
