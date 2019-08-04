@@ -5,6 +5,7 @@ import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.result.genSuccessResult
 import com.zhuzichu.orange.core.utils.ProjectPolicyUtils
 import com.zhuzichu.orange.core.utils.ProjectTokenUtils
+import com.zhuzichu.orange.model.Orange
 import com.zhuzichu.orange.model.User
 import com.zhuzichu.orange.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -46,10 +47,18 @@ class UserService {
         ))
     }
 
-    fun login(user: User): Result {
+    fun login(user: User, orange: Orange, ip: String?): Result {
         val data = userRepository.findOne(Example.of(user))
         if (!data.isPresent)
             return genFailResult("用户名或密码错误")
+        userRepository.save(data.get().apply {
+            loginLastTime = System.currentTimeMillis()
+            loginLastPlatform = orange.platform
+            loginLastVersionCode = orange.versionCode
+            loginLastVersionName = orange.versionName
+            loginLastDevice = orange.device
+            loginLastIp = ip
+        })
         return genSuccessResult(data = mapOf(
                 "token" to ProjectTokenUtils.createJWTToken(data.get().id, data.get().username),
                 "userInfo" to data.get().apply {
@@ -58,10 +67,18 @@ class UserService {
         ), msg = "登录成功")
     }
 
-    fun loginByPhone(user: User): Result {
+    fun loginByPhone(user: User, orange: Orange, ip: String?): Result {
         val data = userRepository.findOne(Example.of(user))
         if (!data.isPresent)
             return genFailResult("该手机未绑定任何账号")
+        userRepository.save(data.get().apply {
+            loginLastTime = System.currentTimeMillis()
+            loginLastPlatform = orange.platform
+            loginLastVersionCode = orange.versionCode
+            loginLastVersionName = orange.versionName
+            loginLastDevice = orange.device
+            loginLastIp = ip
+        })
         return genSuccessResult(data = mapOf(
                 "token" to ProjectTokenUtils.createJWTToken(data.get().id, data.get().username),
                 "userInfo" to data.get().apply {

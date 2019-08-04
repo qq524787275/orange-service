@@ -52,18 +52,22 @@ class UserController {
 
     @PostMapping("/login")
     @Encrypt
-    fun login(@RequestBody loginParam: LoginParam): Result {
-        return userService.login(User(username = loginParam.username, password = loginParam.password))
+    fun login(@RequestBody loginParam: LoginParam, httpRequest: HttpServletRequest): Result {
+        val orange = httpRequest.getAttribute(Constants.KEY_ORANGE) as Orange
+        val ipAddr = ProjectIpAddrUtils.getIpAddr(httpRequest)
+        return userService.login(User(username = loginParam.username, password = loginParam.password), orange, ipAddr)
     }
 
     @PostMapping("/loginByPhone")
     @Encrypt
-    fun loginByPhone(@RequestBody loginByPhoneParam: LoginByPhoneParam): Result {
+    fun loginByPhone(@RequestBody loginByPhoneParam: LoginByPhoneParam, httpRequest: HttpServletRequest): Result {
         val code = redisService[Constants.getRegistCodeKey(loginByPhoneParam.phone)]
         if (code.isNullOrBlank() || code != loginByPhoneParam.code) {
             return genFailResult("验证码错误")
         }
-        return userService.loginByPhone(User(phone = loginByPhoneParam.phone))
+        val ipAddr = ProjectIpAddrUtils.getIpAddr(httpRequest)
+        val orange = httpRequest.getAttribute(Constants.KEY_ORANGE) as Orange
+        return userService.loginByPhone(User(phone = loginByPhoneParam.phone), orange, ipAddr)
     }
 
     @PostMapping("/getUserInfo")

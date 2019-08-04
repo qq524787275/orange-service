@@ -10,6 +10,10 @@ services:
   mysql:
     container_name: v-mysql
     image: mysql/mysql-server:5.7
+    command: [
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_general_ci'
+    ]
     environment:
       MYSQL_DATABASE: orange
       MYSQL_ROOT_PASSWORD: root
@@ -34,8 +38,6 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    volumes:
-      - .:/usr/dev/code
     depends_on:
       - nginx
       - mysql

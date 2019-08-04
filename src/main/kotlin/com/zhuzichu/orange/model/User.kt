@@ -3,6 +3,7 @@ package com.zhuzichu.orange.model
 import com.fasterxml.jackson.annotation.JsonInclude
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
+import kotlin.jvm.Transient
 
 /**
  *@Auther:zhuzichu
@@ -32,6 +33,9 @@ data class User(
 
         @Column(name = "sex", columnDefinition = "tinyint(4) COMMENT '性别 0未设置 1男 2女'")
         var sex: Int? = 0,
+
+        @Column(name = "avatar_url", columnDefinition = "varchar(255) COMMENT '头像url'")
+        var avatarUrl: String? = null,
 
         @Column(columnDefinition = "varchar(100) COMMENT '邮箱'")
         var email: String? = null,
@@ -66,7 +70,6 @@ data class User(
         @Column(name = "login_last_ip", columnDefinition = "varchar(100) COMMENT '最后一次登录的ip地址'")
         var loginLastIp: String? = null,
 
-        @field:NotBlank(message = "验证码不能为空")
         @Transient
         var code: String? = null
 )
