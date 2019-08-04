@@ -8,14 +8,14 @@ spring:
       hibernate:
         hbm2ddl:
           #          auto: create
-          auto: update
+          auto: create
     open-in-view: true
   #redis配置
   redis:
-    host: redis
-    port: 6478
+    host: 47.111.70.169
+    port: 6378
     database: 1
-    timeout: 0
+    timeout: 1000
     jedis:
       pool:
         max-active: 8
