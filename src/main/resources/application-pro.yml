@@ -13,7 +13,7 @@ spring:
   #redis配置
   redis:
     host: redis
-    port: 6478
+    port: 6378
     database: 1
     timeout: 0
     jedis:
