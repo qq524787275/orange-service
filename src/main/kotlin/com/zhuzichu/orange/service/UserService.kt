@@ -1,8 +1,11 @@
 package com.zhuzichu.orange.service
 
+import com.zhuzichu.orange.controller.UserController
+import com.zhuzichu.orange.core.ext.logi
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.result.genSuccessResult
+import com.zhuzichu.orange.core.utils.ProjectJsonUtils
 import com.zhuzichu.orange.core.utils.ProjectPolicyUtils
 import com.zhuzichu.orange.core.utils.ProjectTokenUtils
 import com.zhuzichu.orange.model.Orange
@@ -48,6 +51,7 @@ class UserService {
     }
 
     fun login(user: User, orange: Orange, ip: String?): Result {
+        ProjectJsonUtils.toJson(user).logi()
         val data = userRepository.findOne(Example.of(user))
         if (!data.isPresent)
             return genFailResult("用户名或密码错误")
@@ -92,6 +96,39 @@ class UserService {
         if (!data.isPresent)
             return genFailResult("没有找到该用户信息")
         return genSuccessResult(data = data.get().apply {
+            password = null
+        })
+    }
+
+    fun updateUserInfo(uid: Long, type: Int, value: Any): Result {
+        val data = userRepository.findById(uid)
+        if (!data.isPresent)
+            return genFailResult("没有找到该用户信息")
+        val user = data.get()
+        when (type) {
+            UserController.UpdateParam.TYPE_NICKNAME -> {
+                user.nickname = value.toString()
+            }
+            UserController.UpdateParam.TYPE_EMAIL -> {
+                user.email = value.toString()
+            }
+            UserController.UpdateParam.TYPE_LOCATION -> {
+                user.location = value.toString()
+            }
+            UserController.UpdateParam.TYPE_SEX -> {
+                user.sex = value.toString().toInt()
+                value.toString().logi()
+            }
+            UserController.UpdateParam.TYPE_SUMMARY -> {
+                user.summary = value.toString()
+            }
+            UserController.UpdateParam.TYPE_AVATAR -> {
+                user.avatarUrl = value.toString()
+            }
+            else -> {
+            }
+        }
+        return genSuccessResult(data = userRepository.save(user).apply {
             password = null
         })
     }

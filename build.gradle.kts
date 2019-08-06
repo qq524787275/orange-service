@@ -30,6 +30,8 @@ dependencies {
     implementation("redis.clients:jedis:3.1.0")
     implementation("org.codehaus.jackson:jackson-mapper-asl:1.9.13")
     implementation("org.codehaus.jackson:jackson-core-asl:1.9.13")
+    implementation("org.codehaus.jackson:jackson-core-asl:1.9.13")
+    implementation("com.qiniu:qiniu-java-sdk:7.2.+")
     runtimeOnly("mysql:mysql-connector-java")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

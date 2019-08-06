@@ -32,7 +32,7 @@ data class User(
         var phone: String? = null,
 
         @Column(name = "sex", columnDefinition = "tinyint(4) COMMENT '性别 0未设置 1男 2女'")
-        var sex: Int? = 0,
+        var sex: Int? = null,
 
         @Column(name = "avatar_url", columnDefinition = "varchar(255) COMMENT '头像url'")
         var avatarUrl: String? = null,

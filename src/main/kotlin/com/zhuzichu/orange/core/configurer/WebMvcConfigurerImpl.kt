@@ -92,6 +92,7 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
                     message.loge(e)
                 }
             }
+            e.printStackTrace()
             responseResult(response, result)
             ModelAndView()
         })

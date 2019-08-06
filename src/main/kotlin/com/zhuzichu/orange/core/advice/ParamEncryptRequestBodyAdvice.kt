@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import java.io.ByteArrayInputStream
 import java.io.InputStream
+import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
 
@@ -39,7 +40,7 @@ class ParamEncryptRequestBodyAdvice : RequestBodyAdvice {
         return object : HttpInputMessage {
             override fun getBody(): InputStream {
                 return ByteArrayInputStream(
-                        ProjectPolicyUtils.decryptPolicy(IOUtils.toString(inputMessage.body, StandardCharsets.UTF_8))
+                        URLDecoder.decode(ProjectPolicyUtils.decryptPolicy(IOUtils.toString(inputMessage.body, StandardCharsets.UTF_8)), "UTF-8")
                                 .toByteArray(StandardCharsets.UTF_8)
                 )
             }

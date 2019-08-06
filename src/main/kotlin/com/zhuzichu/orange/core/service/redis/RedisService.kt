@@ -6,7 +6,6 @@ import com.zhuzichu.orange.core.service.redis.IRedisService.Companion.DEFAULT_EX
 import org.apache.commons.lang3.StringUtils
 import org.codehaus.jackson.type.JavaType
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.PropertySource
 import org.springframework.stereotype.Component
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.JedisPool
