@@ -1,7 +1,5 @@
 package com.zhuzichu.orange
 
-import okhttp3.Cache.key
-import org.springframework.cglib.core.CollectionUtils.bucket
 import com.qiniu.util.Auth
 
 
@@ -15,7 +13,11 @@ import com.qiniu.util.Auth
 object Constants {
     private const val QINIU_ACCESSKEY = "W88LIHs3q2MAwXwMzLuXRRWeb8Yh9zACA85eRRaV"
     private const val QINIU_SECRETKEY = "UHwmRClWqtCUfT3Fyw0RWaenLKHWSeS-A5zR7Lk6"
-    private const val QINIU_BUCKET = "orange"
+    private const val QINIU_BUCKET_ORANGE_AVATAR = "orange-avatar"
+
+    const val AVATAR_DEFAULT_URL = "http://pvufda179.bkt.clouddn.com/"
+    const val AVATAR_DEFAULT = "avatar_default.jpeg"
+
     const val KEY_ORANGE = "orange"
     const val KEY_USER_ID = "uid"
     const val KEY_USER_USERNAME = "username"
@@ -34,6 +36,6 @@ object Constants {
 
     fun getAvatarToken(uid: Long): String {
         val auth = Auth.create(QINIU_ACCESSKEY, QINIU_SECRETKEY)
-        return auth.uploadToken(QINIU_BUCKET, "avatar_".plus(uid))
+        return auth.uploadToken(QINIU_BUCKET_ORANGE_AVATAR)
     }
 }

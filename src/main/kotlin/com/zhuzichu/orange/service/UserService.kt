@@ -1,5 +1,6 @@
 package com.zhuzichu.orange.service
 
+import com.zhuzichu.orange.Constants
 import com.zhuzichu.orange.controller.UserController
 import com.zhuzichu.orange.core.ext.logi
 import com.zhuzichu.orange.core.result.Result
@@ -37,11 +38,14 @@ class UserService {
             return genFailResult("该手机号已经被绑定")
         }
         val data = userRepository.save(user.apply {
+            avatarUrl = Constants.AVATAR_DEFAULT
             password = ProjectPolicyUtils.md5(user.password)
             if (nickname == null) {
                 nickname = username
             }
-        })
+        }).apply {
+            avatarUrl = Constants.AVATAR_DEFAULT_URL.plus(avatarUrl)
+        }
         return genSuccessResult(data = mapOf(
                 "token" to ProjectTokenUtils.createJWTToken(data.id, data.username),
                 "userInfo" to data.apply {
@@ -66,6 +70,7 @@ class UserService {
         return genSuccessResult(data = mapOf(
                 "token" to ProjectTokenUtils.createJWTToken(data.get().id, data.get().username),
                 "userInfo" to data.get().apply {
+                    avatarUrl = Constants.AVATAR_DEFAULT_URL.plus(avatarUrl)
                     password = null
                 }
         ), msg = "登录成功")
@@ -87,6 +92,7 @@ class UserService {
                 "token" to ProjectTokenUtils.createJWTToken(data.get().id, data.get().username),
                 "userInfo" to data.get().apply {
                     password = null
+                    avatarUrl = Constants.AVATAR_DEFAULT_URL.plus(avatarUrl)
                 }
         ), msg = "登录成功")
     }
@@ -97,6 +103,7 @@ class UserService {
             return genFailResult("没有找到该用户信息")
         return genSuccessResult(data = data.get().apply {
             password = null
+            avatarUrl = Constants.AVATAR_DEFAULT_URL.plus(avatarUrl)
         })
     }
 
@@ -124,12 +131,14 @@ class UserService {
             }
             UserController.UpdateParam.TYPE_AVATAR -> {
                 user.avatarUrl = value.toString()
+                value.toString().logi()
             }
             else -> {
             }
         }
         return genSuccessResult(data = userRepository.save(user).apply {
             password = null
+            avatarUrl = Constants.AVATAR_DEFAULT_URL.plus(avatarUrl)
         })
     }
 }
