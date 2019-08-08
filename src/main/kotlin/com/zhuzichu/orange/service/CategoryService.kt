@@ -22,8 +22,12 @@ class CategoryService {
     lateinit var categoryRepository: CategoryRepository
 
     fun getCategory(pid: Long): Result {
+        if (pid == -1L) {
+            return genSuccessResult(data = categoryRepository.findAll())
+        }
         return genSuccessResult(data = categoryRepository.findAll(Example.of(Category().apply {
             this.pid = pid
         })))
     }
+
 }
