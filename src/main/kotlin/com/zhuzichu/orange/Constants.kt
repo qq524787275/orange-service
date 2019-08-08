@@ -1,6 +1,7 @@
 package com.zhuzichu.orange
 
 import com.qiniu.util.Auth
+import com.taobao.api.DefaultTaobaoClient
 
 
 /**
@@ -11,6 +12,9 @@ import com.qiniu.util.Auth
  **/
 
 object Constants {
+    private const val TAOBAO_SERVER_URL = "http://gw.api.taobao.com/router/rest"
+    private const val TAOBAO_APPKAY = "27640838"
+    private const val TAOBAO_APPSECRET = "4971c2e8fe569a9447f47df40aa3bc0a"
     private const val QINIU_ACCESSKEY = "W88LIHs3q2MAwXwMzLuXRRWeb8Yh9zACA85eRRaV"
     private const val QINIU_SECRETKEY = "UHwmRClWqtCUfT3Fyw0RWaenLKHWSeS-A5zR7Lk6"
     private const val QINIU_BUCKET_ORANGE_AVATAR = "orange-avatar"
@@ -25,6 +29,13 @@ object Constants {
     private const val API_BASE = "/api/"
     const val API_USER = API_BASE.plus("user")
     const val API_SMS = API_BASE.plus("sms")
+    const val API_CATEGORY = API_BASE.plus("category")
+
+    val taobaoClient = DefaultTaobaoClient(
+            TAOBAO_SERVER_URL,
+            TAOBAO_APPKAY,
+            TAOBAO_APPSECRET
+    )
 
     fun getRegistCodeKey(phone: String?): String {
         return "RegistCode-".plus(phone)
@@ -38,4 +49,6 @@ object Constants {
         val auth = Auth.create(QINIU_ACCESSKEY, QINIU_SECRETKEY)
         return auth.uploadToken(QINIU_BUCKET_ORANGE_AVATAR)
     }
+
+
 }

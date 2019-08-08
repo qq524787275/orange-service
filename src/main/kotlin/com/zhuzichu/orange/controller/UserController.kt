@@ -1,6 +1,10 @@
 package com.zhuzichu.orange.controller
 
 
+import com.taobao.api.request.ItemImgDeleteRequest
+import com.taobao.api.request.TbkUatmFavoritesGetRequest
+import com.taobao.api.request.TbkUatmFavoritesItemGetRequest
+import com.taobao.api.request.TimeGetRequest
 import com.zhuzichu.orange.Constants
 import com.zhuzichu.orange.annotations.Encrypt
 import com.zhuzichu.orange.core.ext.logi
@@ -16,6 +20,20 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
 import javax.validation.constraints.NotBlank
+import com.taobao.api.response.TbkItemRecommendGetResponse
+import com.taobao.api.request.TbkItemRecommendGetRequest
+import com.taobao.api.DefaultTaobaoClient
+import com.taobao.api.TaobaoClient
+import com.aliyun.api.internal.util.AliyunLogger.setIp
+import com.taobao.api.request.TbkItemInfoGetRequest
+import com.aliyun.api.internal.util.AliyunLogger.setIp
+import com.taobao.api.request.TbkDgMaterialOptionalRequest
+
+
+
+
+
+
 
 /**
  *@Auther:zhuzichu
@@ -81,7 +99,19 @@ class UserController {
     @Encrypt
     fun updateUserInfo(@RequestBody updateParam: UpdateParam, request: HttpServletRequest): Result {
         val uid = request.getAttribute(Constants.KEY_USER_ID) as Long
-        "执行了:".plus(uid).logi()
+
+        val req = TbkDgMaterialOptionalRequest()
+
+        req.q = "女装"
+        req.adzoneId = 109076000438L
+        val response = Constants.taobaoClient.execute(req)
+        if (response.isSuccess) {
+            response.body.logi("zzc")
+        } else {
+            "错误码:".plus(response.errorCode).logi("zzc")
+            "错误码 msg:".plus(response.msg).logi("zzc")
+            "错误码 message:".plus(response.message).logi("zzc")
+        }
         return userService.updateUserInfo(uid, updateParam.type, updateParam.value)
     }
 
