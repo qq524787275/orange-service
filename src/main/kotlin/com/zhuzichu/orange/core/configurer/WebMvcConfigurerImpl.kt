@@ -121,8 +121,10 @@ class WebMvcConfigurerImpl : WebMvcConfigurer {
         registry.addInterceptor(object : HandlerInterceptorAdapter() {
             override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
                 val policy = request.getHeader(Constants.KEY_ORANGE)
-                val json = ProjectPolicyUtils.decryptPolicy(policy)
-                request.setAttribute(Constants.KEY_ORANGE, ProjectJsonUtils.fromJson(json, Orange::class.java))
+                policy?.let {
+                    val json = ProjectPolicyUtils.decryptPolicy(policy)
+                    request.setAttribute(Constants.KEY_ORANGE, ProjectJsonUtils.fromJson(json, Orange::class.java))
+                }
                 return true
             }
         }).addPathPatterns("/**")
