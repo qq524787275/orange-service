@@ -1,6 +1,7 @@
 package com.zhuzichu.orange.controller
 
 import com.zhuzichu.orange.Constants
+import com.zhuzichu.orange.annotations.Encrypt
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.service.CategoryService
 import org.springframework.beans.factory.annotation.Autowired
@@ -26,10 +27,10 @@ class CategoryController {
     lateinit var categoryService: CategoryService
 
     @PostMapping("/getCategory")
+    @Encrypt
     fun getCategory(@RequestBody categoryParam: CategoryParam): Result {
         return categoryService.getCategory(categoryParam.pid)
     }
-
 
     data class CategoryParam(
             @field:NotBlank(message = "pid不能为空")

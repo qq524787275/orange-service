@@ -17,9 +17,9 @@ object Constants {
     private const val TAOBAO_APPSECRET = "4971c2e8fe569a9447f47df40aa3bc0a"
     private const val QINIU_ACCESSKEY = "W88LIHs3q2MAwXwMzLuXRRWeb8Yh9zACA85eRRaV"
     private const val QINIU_SECRETKEY = "UHwmRClWqtCUfT3Fyw0RWaenLKHWSeS-A5zR7Lk6"
-    private const val QINIU_BUCKET_ORANGE_AVATAR = "orange-avatar"
+    private const val QINIU_BUCKET_ORANGE_PICTURE = "orange-picture"
 
-    const val AVATAR_DEFAULT_URL = "http://pvufda179.bkt.clouddn.com/"
+    const val AVATAR_DEFAULT_URL = "http://pw41jmzgi.bkt.clouddn.com/"
     const val AVATAR_DEFAULT = "avatar_default.jpeg"
 
     const val KEY_ORANGE = "orange"
@@ -29,6 +29,7 @@ object Constants {
     private const val API_BASE = "/api/"
     const val API_USER = API_BASE.plus("user")
     const val API_SMS = API_BASE.plus("sms")
+    const val API_VERSION = API_BASE.plus("version")
     const val API_CATEGORY = API_BASE.plus("category")
 
     val taobaoClient = DefaultTaobaoClient(
@@ -47,7 +48,7 @@ object Constants {
 
     fun getAvatarToken(uid: Long): String {
         val auth = Auth.create(QINIU_ACCESSKEY, QINIU_SECRETKEY)
-        return auth.uploadToken(QINIU_BUCKET_ORANGE_AVATAR)
+        return auth.uploadToken(QINIU_BUCKET_ORANGE_PICTURE)
     }
 
 

@@ -38,7 +38,7 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    depends_on:
-      - nginx
-      - mysql
-      - redis
+#    depends_on:
+#      - nginx
+#      - mysql
+#      - redis

@@ -9,5 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository
  *@Time:0:05
  *@Desciption:
  **/
+
 interface UserRepository :JpaRepository<User,Long>{
 }
