@@ -18,4 +18,5 @@ fun InterceptorRegistration.addDefaultPath() {
             .excludePathPatterns(Constants.API_USER.plus("/loginByPhone"))
             .excludePathPatterns(Constants.API_SMS.plus("/**"))
             .excludePathPatterns(Constants.API_CATEGORY.plus("/**"))
+            .excludePathPatterns(Constants.API_VERSION .plus("/**"))
 }
