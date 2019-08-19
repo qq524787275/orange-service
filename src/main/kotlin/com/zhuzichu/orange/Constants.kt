@@ -15,6 +15,7 @@ object Constants {
     private const val TAOBAO_SERVER_URL = "http://gw.api.taobao.com/router/rest"
     private const val TAOBAO_APPKAY = "27640838"
     private const val TAOBAO_APPSECRET = "4971c2e8fe569a9447f47df40aa3bc0a"
+    const val TAOBAO_PID = 109076000438L
     private const val QINIU_ACCESSKEY = "W88LIHs3q2MAwXwMzLuXRRWeb8Yh9zACA85eRRaV"
     private const val QINIU_SECRETKEY = "UHwmRClWqtCUfT3Fyw0RWaenLKHWSeS-A5zR7Lk6"
     private const val QINIU_BUCKET_ORANGE_PICTURE = "orange-picture"
@@ -31,6 +32,7 @@ object Constants {
     const val API_SMS = API_BASE.plus("sms")
     const val API_VERSION = API_BASE.plus("version")
     const val API_CATEGORY = API_BASE.plus("category")
+    const val API_TAOBAO = API_BASE.plus("taobao")
 
     val taobaoClient = DefaultTaobaoClient(
             TAOBAO_SERVER_URL,

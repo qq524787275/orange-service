@@ -8,6 +8,7 @@ import com.zhuzichu.orange.model.Version
 import com.zhuzichu.orange.repository.VersionRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Example
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 
 /**
@@ -25,22 +26,23 @@ class VersionService {
 
     fun checkUpdate(orange: Orange): Result {
         var isUpdate = false
-        val version = versionRepository.findOne(Example.of(Version().apply {
+        val versions = versionRepository.findAll(Example.of(Version().apply {
             platform = orange.platform
-        }))
+        }), Sort(Sort.Direction.DESC, "versionCode"))
 
-        if (!version.isPresent) {
+        if (versions.isEmpty()) {
             return genFailResult("没有找到该平台")
         }
 
+        val lastVersion = versions[0]
         val taget = orange.versionCode ?: 0
-        val src = version.get().versionCode ?: 0
+        val src = lastVersion.versionCode ?: 0
         if (taget < src) {
             isUpdate = true
         }
         return genSuccessResult(data = mapOf(
                 "isUpdate" to isUpdate,
-                "info" to version
+                "info" to lastVersion
         ))
     }
 }

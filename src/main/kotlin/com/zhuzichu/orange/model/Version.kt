@@ -27,5 +27,7 @@ data class Version(
         var versionName: String? = null,
 
         @Column(name = "url", columnDefinition = "varchar(255) COMMENT '下载链接'")
-        var url: String? = null
+        var url: String? = null,
+
+        var content: String? = null
 )
