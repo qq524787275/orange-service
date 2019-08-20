@@ -34,6 +34,9 @@ class TaoBaoController {
             adzoneId = Constants.TAOBAO_PID
             q = searchParam.keyWord
             sort = searchParam.sort
+            hasCoupon = true
+            startTkRate = 1000
+            endPrice = 10000
         })
         if (rsp.isSuccess) {
             return genSuccessResult(data = JSONObject.parse(rsp.body))
