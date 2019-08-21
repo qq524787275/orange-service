@@ -3,6 +3,7 @@ package com.zhuzichu.orange
 import com.taobao.api.request.TbkDgMaterialOptionalRequest
 import org.junit.Test
 import com.taobao.api.request.TbkItemInfoGetRequest
+import com.taobao.api.request.TbkShopRecommendGetRequest
 
 
 /**
@@ -34,5 +35,15 @@ class TaoBaoTests {
         req.numIids = "564471772318"
         val rsp = client.execute(req)
         print(rsp.body)
+    }
+
+    @Test
+    fun shop(){
+        val client = Constants.taobaoClient
+        val req = TbkShopRecommendGetRequest()
+        req.userId = 3029542506L
+        req.fields = "user_id,shop_title,shop_type,seller_nick,pict_url,shop_url";
+        val rsp = client.execute(req)
+        println(rsp.body)
     }
 }

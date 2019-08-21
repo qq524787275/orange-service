@@ -41,6 +41,8 @@ class TaoBaoController {
         if (rsp.isSuccess) {
             return genSuccessResult(data = JSONObject.parse(rsp.body))
         }
+
+
         return genFailResult(rsp.subMsg)
     }
 

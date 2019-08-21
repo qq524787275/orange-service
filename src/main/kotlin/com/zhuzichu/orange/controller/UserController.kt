@@ -74,6 +74,7 @@ class UserController {
     fun login(@RequestBody loginParam: LoginParam, httpRequest: HttpServletRequest): Result {
         val orange = httpRequest.getAttribute(Constants.KEY_ORANGE) as Orange
         val ipAddr = ProjectIpAddrUtils.getIpAddr(httpRequest)
+        ipAddr.logi("zzc")
         return userService.login(User(username = loginParam.username, password = loginParam.password), orange, ipAddr)
     }
 

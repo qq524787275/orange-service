@@ -32,7 +32,7 @@ services:
     command: redis-server /etc/redis/redis.conf
   orange:
     restart: always
-    container_name: vv-orange
+    container_name: v-orange
     ports:
       - 8011:8011
     build:

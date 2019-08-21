@@ -1,6 +1,5 @@
 package com.zhuzichu.orange.service
 
-import com.zhuzichu.orange.core.ext.logi
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.core.result.genSuccessResult
 import com.zhuzichu.orange.model.Category
