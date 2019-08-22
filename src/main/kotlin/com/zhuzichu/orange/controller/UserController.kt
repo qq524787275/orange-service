@@ -20,13 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
 import javax.validation.constraints.NotBlank
-import com.taobao.api.response.TbkItemRecommendGetResponse
-import com.taobao.api.request.TbkItemRecommendGetRequest
-import com.taobao.api.DefaultTaobaoClient
-import com.taobao.api.TaobaoClient
-import com.aliyun.api.internal.util.AliyunLogger.setIp
-import com.taobao.api.request.TbkItemInfoGetRequest
-import com.aliyun.api.internal.util.AliyunLogger.setIp
 import com.taobao.api.request.TbkDgMaterialOptionalRequest
 
 
