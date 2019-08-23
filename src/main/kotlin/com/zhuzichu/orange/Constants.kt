@@ -12,7 +12,7 @@ import com.taobao.api.DefaultTaobaoClient
  **/
 
 object Constants {
-    private const val TAOBAO_SERVER_URL = "http://gw.api.taobao.com/router/rest"
+    private const val TAOBAO_SERVER_URL = "https://eco.taobao.com/router/rest"
     private const val TAOBAO_APPKAY = "27640838"
     private const val TAOBAO_APPSECRET = "4971c2e8fe569a9447f47df40aa3bc0a"
     const val TAOBAO_PID = 109076000438L

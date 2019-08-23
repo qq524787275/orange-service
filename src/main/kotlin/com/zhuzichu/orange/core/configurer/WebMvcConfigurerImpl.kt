@@ -16,7 +16,7 @@ import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.utils.ProjectJsonUtils
 import com.zhuzichu.orange.core.utils.ProjectPolicyUtils
 import com.zhuzichu.orange.core.utils.ProjectTokenUtils
-import com.zhuzichu.orange.model.Orange
+import com.zhuzichu.orange.bean.Orange
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.HttpMessageConverter
 import org.springframework.web.method.HandlerMethod

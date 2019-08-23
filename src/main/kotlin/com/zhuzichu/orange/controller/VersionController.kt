@@ -2,7 +2,7 @@ package com.zhuzichu.orange.controller
 
 import com.zhuzichu.orange.Constants
 import com.zhuzichu.orange.core.result.Result
-import com.zhuzichu.orange.model.Orange
+import com.zhuzichu.orange.bean.Orange
 import com.zhuzichu.orange.service.VersionService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping

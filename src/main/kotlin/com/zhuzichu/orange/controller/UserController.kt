@@ -1,10 +1,6 @@
 package com.zhuzichu.orange.controller
 
 
-import com.taobao.api.request.ItemImgDeleteRequest
-import com.taobao.api.request.TbkUatmFavoritesGetRequest
-import com.taobao.api.request.TbkUatmFavoritesItemGetRequest
-import com.taobao.api.request.TimeGetRequest
 import com.zhuzichu.orange.Constants
 import com.zhuzichu.orange.annotations.Encrypt
 import com.zhuzichu.orange.core.ext.logi
@@ -13,7 +9,7 @@ import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.result.genSuccessResult
 import com.zhuzichu.orange.core.service.redis.IRedisService
 import com.zhuzichu.orange.core.utils.ProjectIpAddrUtils
-import com.zhuzichu.orange.model.Orange
+import com.zhuzichu.orange.bean.Orange
 import com.zhuzichu.orange.model.User
 import com.zhuzichu.orange.service.UserService
 import org.springframework.beans.factory.annotation.Autowired

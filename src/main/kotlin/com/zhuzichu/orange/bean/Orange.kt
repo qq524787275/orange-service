@@ -1,4 +1,4 @@
-package com.zhuzichu.orange.model
+package com.zhuzichu.orange.bean
 
 /**
  *@Auther:zhuzichu

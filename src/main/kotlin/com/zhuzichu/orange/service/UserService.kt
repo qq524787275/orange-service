@@ -9,7 +9,7 @@ import com.zhuzichu.orange.core.result.genSuccessResult
 import com.zhuzichu.orange.core.utils.ProjectJsonUtils
 import com.zhuzichu.orange.core.utils.ProjectPolicyUtils
 import com.zhuzichu.orange.core.utils.ProjectTokenUtils
-import com.zhuzichu.orange.model.Orange
+import com.zhuzichu.orange.bean.Orange
 import com.zhuzichu.orange.model.User
 import com.zhuzichu.orange.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired

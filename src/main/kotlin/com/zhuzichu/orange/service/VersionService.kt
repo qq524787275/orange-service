@@ -3,7 +3,7 @@ package com.zhuzichu.orange.service
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.result.genSuccessResult
-import com.zhuzichu.orange.model.Orange
+import com.zhuzichu.orange.bean.Orange
 import com.zhuzichu.orange.model.Version
 import com.zhuzichu.orange.repository.VersionRepository
 import org.springframework.beans.factory.annotation.Autowired

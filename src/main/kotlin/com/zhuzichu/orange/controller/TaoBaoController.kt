@@ -4,9 +4,13 @@ import com.alibaba.fastjson.JSONObject
 import com.taobao.api.request.TbkDgMaterialOptionalRequest
 import com.zhuzichu.orange.Constants
 import com.zhuzichu.orange.annotations.Encrypt
+import com.zhuzichu.orange.bean.Goods
+import com.zhuzichu.orange.bean.GoodsInfo
+import com.zhuzichu.orange.core.ext.format2
 import com.zhuzichu.orange.core.result.Result
 import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.result.genSuccessResult
+import com.zhuzichu.orange.core.utils.ProjectJsonUtils
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -39,10 +43,20 @@ class TaoBaoController {
             endPrice = 10000
         })
         if (rsp.isSuccess) {
-            return genSuccessResult(data = JSONObject.parse(rsp.body))
+            val goods = ProjectJsonUtils.fromJson(rsp.body, Goods::class.java)
+            return genSuccessResult(data = goods.tbk_dg_material_optional_response.result_list.map_data.map {
+                GoodsInfo().apply {
+                    itemid = it.item_id.toString()
+                    itempic = it.pict_url
+                    itemshorttitle = it.short_title
+                    itemprice = it.zk_final_price
+                    itemendprice = (it.zk_final_price.toDouble() - it.coupon_amount.toDouble()).format2()
+                    itemsale = it.tk_total_sales
+                    couponmoney = it.coupon_amount
+                    smallimages = it.small_images.string
+                }
+            })
         }
-
-
         return genFailResult(rsp.subMsg)
     }
 
