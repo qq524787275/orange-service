@@ -10,3 +10,7 @@ package com.zhuzichu.orange.core.ext
 fun Double.format2(): String {
     return String.format("%.2f", this)
 }
+
+fun String.scheme(): String {
+    return "http:".plus(this)
+}

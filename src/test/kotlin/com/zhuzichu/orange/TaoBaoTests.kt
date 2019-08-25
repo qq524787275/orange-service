@@ -1,18 +1,15 @@
 package com.zhuzichu.orange
 
-import com.taobao.api.request.TbkDgMaterialOptionalRequest
+import com.taobao.api.request.*
 import org.junit.Test
-import com.taobao.api.request.TbkItemInfoGetRequest
-import com.taobao.api.request.TbkShopRecommendGetRequest
 import com.taobao.api.response.TbkContentGetResponse
-import com.taobao.api.request.TbkContentGetRequest
-import com.taobao.api.request.JuItemsSearchRequest
 import com.taobao.api.response.TbkDgNewuserOrderSumResponse
-import com.taobao.api.request.TbkDgNewuserOrderSumRequest
 import com.taobao.api.response.TbkDgOptimusMaterialResponse
-import com.taobao.api.request.TbkDgOptimusMaterialRequest
 import com.zhuzichu.orange.bean.Goods
 import com.zhuzichu.orange.core.utils.ProjectJsonUtils
+import com.taobao.api.response.TbkUatmFavoritesGetResponse
+import com.taobao.api.response.TbkUatmFavoritesItemGetResponse
+import com.taobao.api.request.TbkDgOptimusMaterialRequest
 
 
 /**
@@ -79,6 +76,42 @@ class TaoBaoTests {
         req.pageSize = 20L
         req.adzoneId = Constants.TAOBAO_PID
         req.pageNo = 1L
+        val rsp = client.execute(req)
+        println(rsp.body)
+    }
+
+    @Test
+    fun favorites() {
+        val client = Constants.taobaoClient
+        val req = TbkUatmFavoritesGetRequest()
+        req.pageNo = 1L
+        req.pageSize = 20L
+        req.fields = "favorites_title,favorites_id,type"
+        req.type = 1L
+        val rsp = client.execute(req)
+        println(rsp.body)
+    }
+
+    @Test
+    fun favoritesItem() {
+        val client = Constants.taobaoClient
+        val req = TbkUatmFavoritesItemGetRequest()
+        req.adzoneId = Constants.TAOBAO_PID
+        req.favoritesId = 19735860L
+        req.fields = "coupon_click_url,num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,seller_id,volume,nick,shop_title,zk_final_price_wap,event_start_time,event_end_time,tk_rate,status,type"
+        val rsp = client.execute(req)
+        println(rsp.body)
+    }
+
+    @Test
+    fun getItems() {
+        val client = Constants.taobaoClient
+        val req = TbkDgOptimusMaterialRequest()
+        req.pageSize = 20L
+        req.adzoneId = Constants.TAOBAO_PID
+        req.pageNo = 1L
+        req.materialId = 3756L
+//        req.itemId = 544092135549L
         val rsp = client.execute(req)
         println(rsp.body)
     }
