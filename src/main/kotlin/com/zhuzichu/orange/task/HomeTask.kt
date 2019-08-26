@@ -52,7 +52,7 @@ class HomeTask {
     fun getHomeResult(): Result {
         val homeList = getHomeList()
         homeList.map {
-            val recommendGoods = taoBaoService.getRecommendGoods(it.id, pageSize = it.pageSize)
+            val recommendGoods = taoBaoService.getRecommend(it.id, pageSize = it.pageSize)
             recommendGoods ?: return genFailResult("获取数据失败")
             val list = recommendGoods.tbk_dg_optimus_material_response.result_list.map_data.map {
                 GoodsInfo().apply {

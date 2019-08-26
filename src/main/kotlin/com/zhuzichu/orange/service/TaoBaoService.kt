@@ -1,18 +1,12 @@
 package com.zhuzichu.orange.service
 
-import com.taobao.api.request.TbkDgMaterialOptionalRequest
-import com.taobao.api.request.TbkUatmFavoritesGetRequest
-import com.taobao.api.request.TbkUatmFavoritesItemGetRequest
+import com.taobao.api.request.*
 import com.zhuzichu.orange.Constants
-import com.zhuzichu.orange.bean.Favorites
-import com.zhuzichu.orange.bean.FavoritesItem
-import com.zhuzichu.orange.bean.Goods
 import com.zhuzichu.orange.controller.TaoBaoController
 import com.zhuzichu.orange.core.utils.ProjectJsonUtils
 import org.springframework.stereotype.Service
 import com.taobao.api.response.TbkDgOptimusMaterialResponse
-import com.taobao.api.request.TbkDgOptimusMaterialRequest
-import com.zhuzichu.orange.bean.Recommend
+import com.zhuzichu.orange.bean.*
 import com.zhuzichu.orange.core.ext.logi
 
 
@@ -65,7 +59,7 @@ class TaoBaoService {
         return null
     }
 
-    fun getRecommendGoods(materialId: Long, itemId: Long? = null, pageSize: Long? = 20): Recommend? {
+    fun getRecommend(materialId: Long, itemId: Long? = null, pageSize: Long? = 20): Recommend? {
         val req = TbkDgOptimusMaterialRequest()
         req.pageSize = pageSize
         req.adzoneId = Constants.TAOBAO_PID
@@ -75,6 +69,18 @@ class TaoBaoService {
         val rsp = client.execute(req)
         if (rsp.isSuccess)
             return ProjectJsonUtils.fromJson(rsp.body, Recommend::class.java)
+        return null
+    }
+
+    fun getRecommendGoods(itemId: Long, pageSize: Long? = 20): RecommendGoods? {
+        val req = TbkItemRecommendGetRequest()
+        req.fields = "num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url"
+        req.numIid = itemId
+        req.count = pageSize
+        req.platform = 1L
+        val rsp = client.execute(req)
+        if (rsp.isSuccess)
+            return ProjectJsonUtils.fromJson(rsp.body, RecommendGoods::class.java)
         return null
     }
 }

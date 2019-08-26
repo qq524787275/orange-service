@@ -10,6 +10,10 @@ import com.zhuzichu.orange.core.utils.ProjectJsonUtils
 import com.taobao.api.response.TbkUatmFavoritesGetResponse
 import com.taobao.api.response.TbkUatmFavoritesItemGetResponse
 import com.taobao.api.request.TbkDgOptimusMaterialRequest
+import com.taobao.api.response.TbkItemRecommendGetResponse
+import com.taobao.api.request.TbkItemRecommendGetRequest
+
+
 
 
 /**
@@ -112,6 +116,18 @@ class TaoBaoTests {
         req.pageNo = 1L
         req.materialId = 3756L
 //        req.itemId = 544092135549L
+        val rsp = client.execute(req)
+        println(rsp.body)
+    }
+
+    @Test
+    fun recommend(){
+        val client = Constants.taobaoClient
+        val req = TbkItemRecommendGetRequest()
+        req.fields = "num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,volume,coupon_amount"
+        req.numIid = 544092135549L
+        req.count = 20L
+        req.platform = 1L
         val rsp = client.execute(req)
         println(rsp.body)
     }
