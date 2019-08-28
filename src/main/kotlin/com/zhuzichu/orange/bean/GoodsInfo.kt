@@ -1,5 +1,7 @@
 package com.zhuzichu.orange.bean
 
+import java.io.Serializable
+
 /**
  * Created by IntelliJ IDEA.
  * Blog: zhuzichu.com
@@ -63,4 +65,4 @@ data class GoodsInfo(
         var userid: String = "",
         var videoid: String = "",
         var smallimages: List<String> = listOf()
-)
+):Serializable

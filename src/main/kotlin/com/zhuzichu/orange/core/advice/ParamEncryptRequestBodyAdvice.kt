@@ -1,7 +1,6 @@
 package com.zhuzichu.orange.core.advice
 
 import com.zhuzichu.orange.annotations.Encrypt
-import com.zhuzichu.orange.core.ext.logi
 import com.zhuzichu.orange.core.utils.ProjectPolicyUtils
 import org.apache.commons.io.IOUtils
 import org.springframework.core.MethodParameter

@@ -5,10 +5,10 @@ import com.zhuzichu.orange.Constants
 import com.zhuzichu.orange.controller.TaoBaoController
 import com.zhuzichu.orange.core.utils.ProjectJsonUtils
 import org.springframework.stereotype.Service
-import com.taobao.api.response.TbkDgOptimusMaterialResponse
 import com.zhuzichu.orange.bean.*
-import com.zhuzichu.orange.core.ext.logi
-
+import com.zhuzichu.orange.model.Home
+import com.zhuzichu.orange.repository.HomeRepository
+import org.springframework.beans.factory.annotation.Autowired
 
 /**
  *@Auther:zhuzichu
@@ -19,6 +19,13 @@ import com.zhuzichu.orange.core.ext.logi
 @Service
 class TaoBaoService {
     val client = Constants.taobaoClient
+
+    @Autowired
+    lateinit var homeRepository: HomeRepository
+
+    fun getHomeList():List<Home>{
+        return homeRepository.findAll()
+    }
 
     fun getFavorites(pageNo: Long, pageSize: Long): Favorites? {
         val req = TbkUatmFavoritesGetRequest()
@@ -59,7 +66,7 @@ class TaoBaoService {
         return null
     }
 
-    fun getRecommend(materialId: Long, itemId: Long? = null, pageSize: Long? = 20): Recommend? {
+    fun getRecommend(materialId: Long?, itemId: Long? = null, pageSize: Long? = 20): Recommend? {
         val req = TbkDgOptimusMaterialRequest()
         req.pageSize = pageSize
         req.adzoneId = Constants.TAOBAO_PID

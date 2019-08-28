@@ -1,8 +1,6 @@
 package com.zhuzichu.orange.task
 
-import com.zhuzichu.orange.Constants
 import com.zhuzichu.orange.bean.GoodsInfo
-import com.zhuzichu.orange.bean.HomeBean
 import com.zhuzichu.orange.core.ext.format2
 import com.zhuzichu.orange.core.ext.scheme
 import com.zhuzichu.orange.core.result.Result
@@ -10,6 +8,7 @@ import com.zhuzichu.orange.core.result.genFailResult
 import com.zhuzichu.orange.core.result.genSuccessResult
 import com.zhuzichu.orange.core.service.redis.IRedisService
 import com.zhuzichu.orange.core.utils.ProjectJsonUtils
+import com.zhuzichu.orange.model.Home
 import com.zhuzichu.orange.service.TaoBaoService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.Scheduled
@@ -33,14 +32,9 @@ class HomeTask {
     @Autowired
     lateinit var redisService: IRedisService
 
-    private fun getHomeList(): List<HomeBean> {
-        return listOf(
-                HomeBean(13366L, "轮播图", 5, -1),
-                HomeBean(13367L, "女装", 20, 1),
-                HomeBean(13372L, "男装", 20, 2),
-                HomeBean(13370L, " 鞋包配饰", 20, 3),
-                HomeBean(13376L, "运动户外", 20, 1)
-        )
+
+    private fun getHomeList(): List<Home> {
+        return taoBaoService.getHomeList()
     }
 
     @Scheduled(fixedRate = 1000 * 60 * 60)
@@ -52,7 +46,7 @@ class HomeTask {
     fun getHomeResult(): Result {
         val homeList = getHomeList()
         homeList.map {
-            val recommendGoods = taoBaoService.getRecommend(it.id, pageSize = it.pageSize)
+            val recommendGoods = taoBaoService.getRecommend(it.materialId, pageSize = it.pageSize)
             recommendGoods ?: return genFailResult("获取数据失败")
             val list = recommendGoods.tbk_dg_optimus_material_response.result_list.map_data.map {
                 GoodsInfo().apply {
