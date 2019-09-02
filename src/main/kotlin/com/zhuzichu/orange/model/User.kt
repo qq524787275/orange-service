@@ -70,6 +70,12 @@ data class User(
         @Column(name = "login_last_ip", columnDefinition = "varchar(100) COMMENT '最后一次登录的ip地址'")
         var loginLastIp: String? = null,
 
+        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "user")
+        var foots: List<Foot>? = null,
+
+        @OneToMany(cascade = [CascadeType.ALL], mappedBy = "user")
+        var collections: List<Collection>? = null,
+
         @Transient
         var code: String? = null
 )

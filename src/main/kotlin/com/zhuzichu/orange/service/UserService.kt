@@ -10,11 +10,18 @@ import com.zhuzichu.orange.core.utils.ProjectJsonUtils
 import com.zhuzichu.orange.core.utils.ProjectPolicyUtils
 import com.zhuzichu.orange.core.utils.ProjectTokenUtils
 import com.zhuzichu.orange.bean.Orange
+import com.zhuzichu.orange.model.Collection
+import com.zhuzichu.orange.model.Foot
 import com.zhuzichu.orange.model.User
+import com.zhuzichu.orange.repository.CollectionRepository
+import com.zhuzichu.orange.repository.FootRepository
 import com.zhuzichu.orange.repository.UserRepository
+import jdk.nashorn.internal.runtime.options.Option
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Example
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.util.*
 
 /**
  *@Auther:zhuzichu
@@ -27,6 +34,12 @@ import org.springframework.stereotype.Service
 class UserService {
     @Autowired
     lateinit var userRepository: UserRepository
+    @Autowired
+    lateinit var collectionRepository: CollectionRepository
+    @Autowired
+    lateinit var footRepository: FootRepository
+
+    fun getUserById(uid: Long): User? = userRepository.findByIdOrNull(uid)
 
     fun regist(user: User): Result {
         val isExistsByUsername = userRepository.exists(Example.of(User(username = user.username)))
@@ -140,5 +153,19 @@ class UserService {
             password = null
             avatarUrl = Constants.AVATAR_DEFAULT_URL.plus(avatarUrl)
         })
+    }
+
+    fun addFoot(foot: Foot, user: User): Result {
+        footRepository.save(foot.apply {
+            this.user = user
+        })
+        return genSuccessResult()
+    }
+
+    fun addCollection(collection: Collection, user: User): Result {
+        collectionRepository.save(collection.apply {
+            this.user = user
+        })
+        return genSuccessResult()
     }
 }

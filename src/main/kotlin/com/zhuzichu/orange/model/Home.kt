@@ -1,6 +1,6 @@
 package com.zhuzichu.orange.model
 
-import com.zhuzichu.orange.bean.GoodsInfo
+import com.zhuzichu.orange.bean.GoodsBean
 import javax.persistence.*
 
 /**
@@ -25,8 +25,8 @@ class Home(
         var showType: Int? = null,
 
         @Transient
-        var list: List<GoodsInfo> = listOf(),
+        var list: List<GoodsBean> = listOf(),
 
         @Transient
-        var extension:Any?=null
+        var extension: Any? = null
 )

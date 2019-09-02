@@ -17,11 +17,8 @@ import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
 import javax.validation.constraints.NotBlank
 import com.taobao.api.request.TbkDgMaterialOptionalRequest
-
-
-
-
-
+import com.zhuzichu.orange.model.Collection
+import com.zhuzichu.orange.model.Foot
 
 
 /**
@@ -38,6 +35,22 @@ class UserController {
     lateinit var userService: UserService
     @Autowired
     lateinit var redisService: IRedisService
+
+    @PostMapping("/addFoot")
+    @Encrypt
+    fun addFoot(@RequestBody foot: Foot, request: HttpServletRequest): Result {
+        val uid = request.getAttribute(Constants.KEY_USER_ID) as Long
+        val user = userService.getUserById(uid) ?: return genFailResult("该用户还未注册")
+        return userService.addFoot(foot, user)
+    }
+
+    @PostMapping("/addCollection")
+    @Encrypt
+    fun addCollection(@RequestBody collection: Collection, request: HttpServletRequest): Result {
+        val uid = request.getAttribute(Constants.KEY_USER_ID) as Long
+        val user = userService.getUserById(uid) ?: return genFailResult("该用户还未注册")
+        return userService.addCollection(collection, user)
+    }
 
     @PostMapping("/regist")
     @Encrypt
