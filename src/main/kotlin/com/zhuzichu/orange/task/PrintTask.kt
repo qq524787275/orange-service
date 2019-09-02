@@ -20,6 +20,6 @@ class PrintTask {
 
     @Scheduled(fixedRate = 1000 * 3)
     fun reportCurrentTime() {
-        System.out.println("NOW：" + sdf.format(Date()))
+        println("NOW：" + sdf.format(Date()))
     }
 }

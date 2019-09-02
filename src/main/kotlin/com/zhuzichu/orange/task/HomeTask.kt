@@ -1,7 +1,6 @@
 package com.zhuzichu.orange.task
 
-import com.zhuzichu.orange.Constants
-import com.zhuzichu.orange.bean.GoodsInfo
+import com.zhuzichu.orange.bean.GoodsBean
 import com.zhuzichu.orange.bean.HomeBean
 import com.zhuzichu.orange.core.ext.format2
 import com.zhuzichu.orange.core.ext.scheme
@@ -55,7 +54,7 @@ class HomeTask {
             val recommendGoods = taoBaoService.getRecommend(it.id, pageSize = it.pageSize)
             recommendGoods ?: return genFailResult("获取数据失败")
             val list = recommendGoods.tbk_dg_optimus_material_response.result_list.map_data.map {
-                GoodsInfo().apply {
+                GoodsBean().apply {
                     itemid = it.item_id.toString()
                     itempic = it.pict_url.scheme()
                     itemshorttitle = it.title

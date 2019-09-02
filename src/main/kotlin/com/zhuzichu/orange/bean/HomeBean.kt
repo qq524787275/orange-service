@@ -11,5 +11,5 @@ data class HomeBean(
         val name: String,
         val pageSize: Long,
         val showType: Int,
-        var list: List<GoodsInfo> = listOf()
+        var list: List<GoodsBean> = listOf()
 )

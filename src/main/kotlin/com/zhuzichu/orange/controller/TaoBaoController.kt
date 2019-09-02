@@ -2,8 +2,7 @@ package com.zhuzichu.orange.controller
 
 import com.zhuzichu.orange.Constants
 import com.zhuzichu.orange.annotations.Encrypt
-import com.zhuzichu.orange.bean.GoodsInfo
-import com.zhuzichu.orange.bean.HomeBean
+import com.zhuzichu.orange.bean.GoodsBean
 import com.zhuzichu.orange.core.ext.format2
 import com.zhuzichu.orange.core.ext.scheme
 import com.zhuzichu.orange.core.result.Result
@@ -50,7 +49,7 @@ class TaoBaoController {
                 ?: return genFailResult("获取数据失败")
         return genSuccessResult(data = recommendGoods.tbk_dg_optimus_material_response.result_list.map_data
                 .map {
-                    GoodsInfo().apply {
+                    GoodsBean().apply {
                         itemid = it.item_id.toString()
                         itempic = it.pict_url.scheme()
                         itemshorttitle = it.title
@@ -68,32 +67,6 @@ class TaoBaoController {
                 }
         )
     }
-
-//    @PostMapping("/getRecommend")
-//    @Encrypt
-//    fun getRecommendGoods(@RequestBody recommendParam: RecommendParam): Result {
-//        val recommendGoods = taoBaoService.getRecommendGoods(recommendParam.itemId)
-//                ?: return genFailResult("获取数据失败")
-//        return genSuccessResult(data = recommendGoods.tbk_item_recommend_get_response.results.n_tbk_item
-//                .map {
-//                    GoodsInfo().apply {
-//                        itemid = it.item_id.toString()
-//                        itempic = it.pict_url.scheme()
-//                        itemshorttitle = it.title
-//                        itemprice = it.zk_final_price
-//                        itemendprice = (it.zk_final_price.toDouble() - it.coupon_amount.toDouble()).format2()
-//                        itemsale = it.volume.toString()
-//                        itemtitle = it.title
-//                        couponmoney = it.coupon_amount.toString()
-//                        shoptype = if (it.user_type == 1) "B" else "C"
-//                        smallimages = it.small_images.string.map { url ->
-//                            url.scheme()
-//                        }
-//                        couponurl = it.coupon_share_url.scheme()
-//                    }
-//                }
-//        )
-//    }
 
     @PostMapping("/search")
     @Encrypt
@@ -116,12 +89,12 @@ class TaoBaoController {
         val goods = taoBaoService.getGoods(searchParam, sort)
                 ?: return genFailResult("获取数据失败")
         return genSuccessResult(data = goods.tbk_dg_material_optional_response.result_list.map_data.map {
-            GoodsInfo().apply {
+            GoodsBean().apply {
                 itemid = it.item_id.toString()
                 itempic = it.pict_url
                 itemshorttitle = it.short_title
                 itemprice = it.zk_final_price
-                itemendprice = (it.zk_final_price.toDouble() - it.coupon_amount?.toDouble()).format2()
+                itemendprice = (it.zk_final_price.toDouble() - it.coupon_amount.toDouble()).format2()
                 itemsale = it.volume.toString()
                 itemtitle = it.title
                 couponmoney = it.coupon_amount

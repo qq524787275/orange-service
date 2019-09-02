@@ -7,7 +7,7 @@ package com.zhuzichu.orange.bean
  * Date: 2019-08-23
  * Time: 18:22
  */
-data class GoodsInfo(
+data class GoodsBean(
         var activity_type: String = "",
         var activityid: String = "",
         var coupon_condition: String = "",

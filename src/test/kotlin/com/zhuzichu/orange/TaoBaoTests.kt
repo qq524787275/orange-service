@@ -2,15 +2,9 @@ package com.zhuzichu.orange
 
 import com.taobao.api.request.*
 import org.junit.Test
-import com.taobao.api.response.TbkContentGetResponse
-import com.taobao.api.response.TbkDgNewuserOrderSumResponse
-import com.taobao.api.response.TbkDgOptimusMaterialResponse
 import com.zhuzichu.orange.bean.Goods
 import com.zhuzichu.orange.core.utils.ProjectJsonUtils
-import com.taobao.api.response.TbkUatmFavoritesGetResponse
-import com.taobao.api.response.TbkUatmFavoritesItemGetResponse
 import com.taobao.api.request.TbkDgOptimusMaterialRequest
-import com.taobao.api.response.TbkItemRecommendGetResponse
 import com.taobao.api.request.TbkItemRecommendGetRequest
 
 
